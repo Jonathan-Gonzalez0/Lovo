@@ -25,7 +25,10 @@ tokens = (
 "GTE",
 "GT",
 "IF",
-"ELSE"
+"ELSE",
+"WHILE",
+"FOR",
+"SEMICOLON"
 )
 
 t_ignore = " "
@@ -73,6 +76,8 @@ t_LBRACE = r"\{"
 
 t_RBRACE = r"\}"
 
+t_SEMICOLON = r"\;"
+
 
 def t_IDENTIFIER(t):
   r"[a-zA-z]+"
@@ -84,6 +89,10 @@ def t_IDENTIFIER(t):
     t.type = "IF"
   if t.value == "else":
     t.type = "ELSE"
+  if t.value == "while":
+    t.type = "WHILE"
+  if t.value == "for":
+    t.type = "FOR"
   return t
 
 t_ASSIGN = r"\="
@@ -115,6 +124,10 @@ lexer.input('Result > 10')
 lexer.input('Result != 10')
 
 lexer.input("if(Result){ x } else { 0 }")
+
+lexer.input("while(Result){ x += 1}")
+
+lexer.input("for(let i = 0; i < 5; i = i + 1){ Result = i}")
 
 token = lexer.token()
 
