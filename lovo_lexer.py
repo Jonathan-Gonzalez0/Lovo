@@ -68,6 +68,8 @@ t_GTE = r">="
 
 t_GT = r">"
 
+# Enclosures
+
 t_LPAREN = r"\("
 
 t_RPAREN = r"\)"
