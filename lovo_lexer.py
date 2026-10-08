@@ -4,8 +4,6 @@ tokens = (
 "LET",
 "BOOL",
 "STRING",
-"LPAREN",
-"RPAREN",
 "EXP",
 "INTEGER",
 "FLOAT",
@@ -14,8 +12,16 @@ tokens = (
 "TIMES",
 "DIVIDE",
 "MODULO",
+"LPAREN",
+"RPAREN",
 "IDENTIFIER",
-"ASSIGN"
+"ASSIGN",
+"EQUALS",
+"NEQUALS",
+"LTE",
+"LT",
+"GTE",
+"GT"
 )
 
 t_ignore = " "
@@ -40,7 +46,19 @@ t_PLUS = r"\+"
 
 t_MINUS = r"\-"
 
+# Comparison Operators
 
+t_EQUALS = r"\=="
+
+t_NEQUALS = r"\!="
+
+t_LTE = r"\<="
+
+t_LT = r"\<"
+
+t_GTE = r">="
+
+t_GT = r">"
 
 t_LPAREN = r"\("
 
@@ -70,6 +88,18 @@ lexer.input("let Result = 8")
 lexer.input("let Result = False")
 
 lexer.input('let Result = "Hi~" ')
+
+lexer.input('Result == 10')
+
+lexer.input('Result <= 10')
+
+lexer.input('Result < 10')
+
+lexer.input('Result >= 10')
+
+lexer.input('Result > 10')
+
+lexer.input('Result != 10')
 
 token = lexer.token()
 
