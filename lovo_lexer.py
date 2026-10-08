@@ -20,17 +20,14 @@ tokens = (
 
 t_ignore = " "
 
-#Program Types
+# Program Types
 t_INTEGER = r"\d+"
 
 t_FLOAT = r"\d+\.\d+"
 
 t_STRING = r'"[^"\r\n]*"'
 
-t_LPAREN = r"\("
-
-t_RPAREN = r"\)"
-
+# Arithmetic Operations
 t_EXP = r"\*\*"
 
 t_TIMES = r"\*"
@@ -42,6 +39,13 @@ t_MODULO = r"\%"
 t_PLUS = r"\+"
 
 t_MINUS = r"\-"
+
+
+
+t_LPAREN = r"\("
+
+t_RPAREN = r"\)"
+
 
 def t_IDENTIFIER(t):
   r"[a-zA-z]+"
