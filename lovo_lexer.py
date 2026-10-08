@@ -30,7 +30,8 @@ tokens = (
 "FOR",
 "SEMICOLON",
 "FUNC",
-"RETURN"
+"RETURN",
+"PRINT"
 )
 
 t_ignore = " "
@@ -101,6 +102,8 @@ def t_IDENTIFIER(t):
     t.type = "FUNC"
   if t.value == "return":
     t.type = "RETURN"
+  if t.value == "print":
+    t.type = "PRINT"
   return t
 
 t_ASSIGN = r"\="
@@ -140,6 +143,10 @@ lexer.input("for(let i = 0; i < 5; i = i + 1){ Result = i}")
 lexer.input("func")
 
 lexer.input("return")
+
+lexer.input("print(x);")
+
+
 
 token = lexer.token()
 
