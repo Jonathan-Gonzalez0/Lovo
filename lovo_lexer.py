@@ -31,7 +31,8 @@ tokens = (
 "SEMICOLON",
 "FUNC",
 "RETURN",
-"PRINT"
+"PRINT",
+"COMMENT"
 )
 
 t_ignore = " "
@@ -81,8 +82,15 @@ t_LBRACE = r"\{"
 
 t_RBRACE = r"\}"
 
-t_SEMICOLON = r"\;"
 
+# Comments
+
+t_ignore_COMMENT = r"\//[^\r\n]*"
+
+# Misc 
+
+t_SEMICOLON = r"\;"
+t_ASSIGN = r"\="
 
 def t_IDENTIFIER(t):
   r"[a-zA-z]+"
@@ -105,8 +113,6 @@ def t_IDENTIFIER(t):
   if t.value == "print":
     t.type = "PRINT"
   return t
-
-t_ASSIGN = r"\="
 
 lexer = lex.lex()
 
@@ -146,7 +152,7 @@ lexer.input("return")
 
 lexer.input("print(x);")
 
-
+lexer.input("// aaa")
 
 token = lexer.token()
 
