@@ -28,7 +28,9 @@ tokens = (
 "ELSE",
 "WHILE",
 "FOR",
-"SEMICOLON"
+"SEMICOLON",
+"FUNC",
+"RETURN"
 )
 
 t_ignore = " "
@@ -95,6 +97,10 @@ def t_IDENTIFIER(t):
     t.type = "WHILE"
   if t.value == "for":
     t.type = "FOR"
+  if t.value == "func":
+    t.type = "FUNC"
+  if t.value == "return":
+    t.type = "RETURN"
   return t
 
 t_ASSIGN = r"\="
@@ -130,6 +136,10 @@ lexer.input("if(Result){ x } else { 0 }")
 lexer.input("while(Result){ x += 1}")
 
 lexer.input("for(let i = 0; i < 5; i = i + 1){ Result = i}")
+
+lexer.input("func")
+
+lexer.input("return")
 
 token = lexer.token()
 
