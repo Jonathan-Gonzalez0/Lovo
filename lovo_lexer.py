@@ -2,6 +2,8 @@ import ply.lex as lex
 
 tokens = (
 "LET",
+"BOOL",
+"STRING",
 "LPAREN",
 "RPAREN",
 "EXP",
@@ -18,9 +20,12 @@ tokens = (
 
 t_ignore = " "
 
+#Program Types
 t_INTEGER = r"\d+"
 
 t_FLOAT = r"\d+\.\d+"
+
+t_STRING = r'"[^"\r\n]*"'
 
 t_LPAREN = r"\("
 
@@ -42,6 +47,8 @@ def t_IDENTIFIER(t):
   r"[a-zA-z]+"
   if t.value == "let":
     t.type = "LET"
+  if t.value == "True" or t.value == "False":
+    t.type = "BOOL"
   return t
 
 t_ASSIGN = r"\="
@@ -55,6 +62,10 @@ lexer.input("(2*2)**8 % 4")
 lexer.input("x = 8")
 
 lexer.input("let Result = 8")
+
+lexer.input("let Result = False")
+
+lexer.input('let Result = "Hi~" ')
 
 token = lexer.token()
 
