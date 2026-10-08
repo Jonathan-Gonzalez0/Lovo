@@ -14,6 +14,8 @@ tokens = (
 "MODULO",
 "LPAREN",
 "RPAREN",
+"LBRACE",
+"RBRACE",
 "IDENTIFIER",
 "ASSIGN",
 "EQUALS",
@@ -21,7 +23,9 @@ tokens = (
 "LTE",
 "LT",
 "GTE",
-"GT"
+"GT",
+"IF",
+"ELSE"
 )
 
 t_ignore = " "
@@ -34,6 +38,7 @@ t_FLOAT = r"\d+\.\d+"
 t_STRING = r'"[^"\r\n]*"'
 
 # Arithmetic Operations
+
 t_EXP = r"\*\*"
 
 t_TIMES = r"\*"
@@ -64,6 +69,10 @@ t_LPAREN = r"\("
 
 t_RPAREN = r"\)"
 
+t_LBRACE = r"\{"
+
+t_RBRACE = r"\}"
+
 
 def t_IDENTIFIER(t):
   r"[a-zA-z]+"
@@ -71,6 +80,10 @@ def t_IDENTIFIER(t):
     t.type = "LET"
   if t.value == "True" or t.value == "False":
     t.type = "BOOL"
+  if t.value == "if":
+    t.type = "IF"
+  if t.value == "else":
+    t.type = "ELSE"
   return t
 
 t_ASSIGN = r"\="
@@ -100,6 +113,8 @@ lexer.input('Result >= 10')
 lexer.input('Result > 10')
 
 lexer.input('Result != 10')
+
+lexer.input("if(Result){ x } else { 0 }")
 
 token = lexer.token()
 
