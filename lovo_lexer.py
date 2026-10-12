@@ -32,7 +32,8 @@ tokens = (
 "FUNC",
 "RETURN",
 "PRINT",
-"COMMENT"
+"COMMENT",
+"COMMA"
 )
 
 t_ignore = " "
@@ -91,6 +92,7 @@ t_ignore_COMMENT = r"\//[^\r\n]*"
 
 t_SEMICOLON = r"\;"
 t_ASSIGN = r"\="
+t_COMMA = r"\,"
 
 def t_IDENTIFIER(t):
   r"[a-zA-z]+"
@@ -113,51 +115,3 @@ def t_IDENTIFIER(t):
   if t.value == "print":
     t.type = "PRINT"
   return t
-
-lexer = lex.lex()
-
-lexer.input("(375 + 82 - 15) / 20.0")
-
-lexer.input("(2*2)**8 % 4")
-
-lexer.input("x = 8")
-
-lexer.input("let Result = 8")
-
-lexer.input("let Result = False")
-
-lexer.input('let Result = "Hi~" ')
-
-lexer.input('Result == 10')
-
-lexer.input('Result <= 10')
-
-lexer.input('Result < 10')
-
-lexer.input('Result >= 10')
-
-lexer.input('Result > 10')
-
-lexer.input('Result != 10')
-
-lexer.input("if(Result){ x } else { 0 }")
-
-lexer.input("while(Result){ x += 1}")
-
-lexer.input("for(let i = 0; i < 5; i = i + 1){ Result = i}")
-
-lexer.input("func")
-
-lexer.input("return")
-
-lexer.input("print(x);")
-
-lexer.input("// aaa")
-
-token = lexer.token()
-
-while token is not None:
-  print(token)
-  token = lexer.token()
-  
-print("Ply is ready")
