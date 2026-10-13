@@ -1,4 +1,5 @@
 import ply.lex as lex 
+import sys
 
 tokens = (
 "LET",
@@ -33,10 +34,12 @@ tokens = (
 "RETURN",
 "PRINT",
 "COMMENT",
-"COMMA"
+"COMMA",
+"POWER",
+"POWER_UNIT"
 )
 
-t_ignore = " "
+t_ignore = " \t"
 
 # Program Types
 t_INTEGER = r"\d+"
@@ -94,9 +97,15 @@ t_SEMICOLON = r"\;"
 t_ASSIGN = r"\="
 t_COMMA = r"\,"
 
+# Power Track 
+t_POWER = r"@power\b"
+
 def t_IDENTIFIER(t):
-  r"[a-zA-z]+"
-  if t.value == "let":
+  r"[a-zA-Z][a-zA-Z0-9_]*"
+
+  if t.value in ("A", "mA", "J", "Wh"):
+    t.type = "POWER_UNIT"
+  elif t.value == "let":
     t.type = "LET"
   if t.value == "True" or t.value == "False":
     t.type = "BOOL"
@@ -115,6 +124,12 @@ def t_IDENTIFIER(t):
   if t.value == "print":
     t.type = "PRINT"
   return t
+
+# Illegal Characters
+
+def t_error(t):
+  print(f"Error: Illegal character '{t.value[0]}' at line {t.lineno}")
+  sys.exit(1)
 
 def t_newline(t):
   r'\n+'

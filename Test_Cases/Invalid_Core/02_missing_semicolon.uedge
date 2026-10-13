@@ -1,0 +1,4 @@
+// Expected: SYNTAX error reported at line 4 (the parser reaches "print" while still expecting ";" after line 3).
+// Tokens are all valid; the parser must catch this.
+let x = 5
+print(x);

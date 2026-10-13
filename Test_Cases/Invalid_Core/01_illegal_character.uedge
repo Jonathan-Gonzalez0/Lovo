@@ -1,0 +1,5 @@
+// Expected: LEXICAL error at line 4 (the "$" is not a valid character).
+// Your lexer should report it (with a line number) and must not crash.
+let x = 5;
+let y = x $ 3;
+print(y);

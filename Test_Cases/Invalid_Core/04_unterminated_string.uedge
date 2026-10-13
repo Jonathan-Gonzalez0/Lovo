@@ -1,0 +1,3 @@
+// Expected: LEXICAL error at line 3 (string literal is never closed).
+let x = 5;
+print("hello);

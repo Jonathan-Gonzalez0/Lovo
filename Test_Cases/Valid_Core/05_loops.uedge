@@ -1,0 +1,17 @@
+// Exercises: while loop, for loop, assignment to an existing variable
+// Expected output (Subproject 2):
+//   3
+//   2
+//   1
+//   15
+let n = 3;
+while (n > 0) {
+    print(n);
+    n = n - 1;
+}
+
+let total = 0;
+for (let i = 1; i <= 5; i = i + 1) {
+    total = total + i;
+}
+print(total);

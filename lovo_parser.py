@@ -1,4 +1,5 @@
 import sys
+from cli import command_line_interface
 import ply.yacc as yacc
 from lovo_lexer import tokens, lexer
 
@@ -84,6 +85,14 @@ def p_statement_function(p):
     'statement : FUNC IDENTIFIER LPAREN parameters_opt RPAREN block'
     p[0] = ("function", p[2], p[4], p[6])
 
+def p_statement_power_function(p):
+    'statement : POWER LPAREN INTEGER POWER_UNIT RPAREN FUNC IDENTIFIER LPAREN parameters_opt RPAREN block'
+    p[0] = ("power_function", p[3], p[4], p[7], p[9], p[11])
+
+def p_statement_power_function_float(p):
+    'statement : POWER LPAREN FLOAT POWER_UNIT RPAREN FUNC IDENTIFIER LPAREN parameters_opt RPAREN block'
+    p[0] = ("power_function", p[3], p[4], p[7], p[9], p[11])
+
 
 def p_parameters_one(p):
     'parameters : IDENTIFIER'
@@ -121,12 +130,7 @@ def p_empty(p):
 
 # Conditions and comparisons
 
-def p_condition_comparison(p):
-    'condition : expression comparison_operator expression'
-    p[0] = (p[2], p[1], p[3])
-
-
-def p_condition_expression(p):
+def p_condition(p):
     'condition : expression'
     p[0] = p[1]
 
@@ -143,18 +147,28 @@ def p_comparison_operator(p):
 
 # Expressions
 
-def p_expression_plus(p):
-    'expression : expression PLUS term'
+def p_expression_comparison(p):
+    'expression : arithmetic_expression comparison_operator arithmetic_expression'
+    p[0] = (p[2], p[1], p[3])
+
+
+def p_arithmetic_expression(p):
+    'expression : arithmetic_expression'
+    p[0] = p[1]
+
+
+def p_arithmetci_plus(p):
+    'arithmetic_expression : arithmetic_expression PLUS term'
     p[0] = ("+", p[1], p[3])
 
 
 def p_expression_minus(p):
-    'expression : expression MINUS term'
+    'arithmetic_expression : arithmetic_expression MINUS term'
     p[0] = ("-", p[1], p[3])
 
 
 def p_expression_term(p):
-    'expression : term'
+    'arithmetic_expression : term'
     p[0] = p[1]
 
 
@@ -219,6 +233,22 @@ def p_factor_expr(p):
     'factor : LPAREN expression RPAREN'
     p[0] = p[2]
 
+def p_factor_function_call(p):
+    'factor : IDENTIFIER LPAREN arguments_optional RPAREN'
+    p[0] = ("function_call", p[1], p[3])
+
+def p_arguments_single(p):
+    'arguments : expression'
+    p[0] = [p[1]]
+
+def p_arguments_multiple(p):
+    'arguments : arguments COMMA expression'
+    p[0] = p[1] + [p[3]]
+
+def p_arguments_optional(p):
+    '''arguments_optional : arguments
+                     | empty'''
+    p[0] = [] if p[1] is None else p[1]
 
 # Error handling
 
@@ -226,16 +256,13 @@ def p_error(p):
     if p:
         print(f"Syntax error at '{p.value}' (line {p.lineno})")
     else:
-        print("Syntax error at end of input")
+        print(f"Syntax error at end of input (line {lexer.lineno})")
+    sys.exit(1)
 
+# Success message
 
-# Error handling
-def p_error(p):
-    if p:
-        print(f"Syntax error at '{p.value}' (line {p.lineno})")
-    else:
-        print("Syntax error at end of input")
-
+def print_success():
+    print("Parse successful!")
 
 # Interpreter
 variables = {}
@@ -279,12 +306,13 @@ def execute(node):
 parser = yacc.yacc()
 
 if __name__ == "__main__":
-    with open(sys.argv[1], "r") as file:
-        code = file.read()
+    code = command_line_interface()
 
+    lexer.lineno = 1
     result = parser.parse(code, lexer=lexer)
+
     if result is not None:
-        execute(result)
+        print_success()
 
 
  

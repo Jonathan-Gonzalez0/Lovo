@@ -1,0 +1,5 @@
+// Expected: SYNTAX error at line 3 (the condition is missing its closing parenthesis).
+let x = 5;
+if (x > 3 {
+    print("big");
+}

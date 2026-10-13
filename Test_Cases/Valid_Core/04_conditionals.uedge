@@ -1,0 +1,24 @@
+// Exercises: if / else, if without else, nested if inside a block
+// Expected output (Subproject 2):
+//   hot
+//   big odd
+let temp = 31;
+if (temp > 30) {
+    print("hot");
+} else {
+    print("ok");
+}
+if (temp < 0) {
+    print("freezing");
+}
+
+let x = 7;
+if (x > 5) {
+    if (x % 2 == 0) {
+        print("big even");
+    } else {
+        print("big odd");
+    }
+} else {
+    print("small");
+}

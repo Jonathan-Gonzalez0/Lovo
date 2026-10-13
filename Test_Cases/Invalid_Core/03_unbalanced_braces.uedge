@@ -1,0 +1,4 @@
+// Expected: SYNTAX error (the "if" block is never closed before end of file).
+let x = 5;
+if (x > 3) {
+    print("big");
