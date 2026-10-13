@@ -1,0 +1,4 @@
+// Exercises: print statement, string literal, comments
+// Expected output (Subproject 2):
+//   Hello, UPRM-Edge!
+print("Hello, UPRM-Edge!");

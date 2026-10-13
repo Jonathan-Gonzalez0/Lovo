@@ -1,6 +1,6 @@
 import sys
 import ply.yacc as yacc
-from lovo_lexer import tokens
+from lovo_lexer import tokens, lexer
 
 # PARSER
 def p_program(p):
@@ -229,14 +229,62 @@ def p_error(p):
         print("Syntax error at end of input")
 
 
+# Error handling
+def p_error(p):
+    if p:
+        print(f"Syntax error at '{p.value}' (line {p.lineno})")
+    else:
+        print("Syntax error at end of input")
+
+
+# Interpreter
+variables = {}
+  
+def evaluate(node):
+    if isinstance(node, (int,float)):
+        return node
+
+    kind = node[0]
+
+    if kind == "identifier":
+        name = node[1]
+
+        if name not in variables:
+            raise NameError(f"Undefined variable: {name}")
+
+        return variables[name]
+
+    if kind == "+":
+        left = evaluate(node[1])
+        right = evaluate(node[2])
+        return left + right
+
+    raise ValueError(f"Unsupported expression: {node}")
+
+def execute(node):
+    kind = node[0]
+
+    if kind == "program":
+        for statement in node[1]:
+            execute(statement)
+
+    elif kind == "declare":
+        name = node[1]
+        value = evaluate(node[2])
+        variables[name] = value
+
+    elif kind == "print":
+        print(evaluate(node[1]))
+
 parser = yacc.yacc()
 
 if __name__ == "__main__":
     with open(sys.argv[1], "r") as file:
         code = file.read()
 
-    result = parser.parse(code)
-    print(result)
+    result = parser.parse(code, lexer=lexer)
+    if result is not None:
+        execute(result)
 
 
  

@@ -1,0 +1,15 @@
+// Exercises: let declarations, int/float/bool/string literals, operator precedence
+// Expected output (Subproject 2):
+//   13
+//   6.28
+//   true
+//   edge
+let a = 3;
+let b = 5;
+let pi = 3.14;
+let ready = true;
+let name = "edge";
+print(a + b * 2);
+print(pi * 2);
+print(ready);
+print(name);

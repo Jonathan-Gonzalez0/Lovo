@@ -115,3 +115,9 @@ def t_IDENTIFIER(t):
   if t.value == "print":
     t.type = "PRINT"
   return t
+
+def t_newline(t):
+  r'\n+'
+  t.lexer.lineno += len(t.value)
+
+lexer = lex.lex()
