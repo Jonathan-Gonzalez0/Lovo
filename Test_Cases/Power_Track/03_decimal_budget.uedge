@@ -1,0 +1,11 @@
+// Track B (Power-Aware): a decimal value inside the annotation (lexer check)
+// Sample cost model assumed here: blinkLED = 0.3mA, which is within 0.5mA.
+// Expected result (Subproject 2): accepted, prints:
+//   blinked
+@power(0.5mA)
+func blinkOnly() {
+    blinkLED();
+    print("blinked");
+}
+
+blinkOnly();

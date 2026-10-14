@@ -1,0 +1,13 @@
+// Exercises: every arithmetic and comparison operator, parentheses, trailing comments
+// Expected output (Subproject 2), one value per line:
+//   2, 5, -3, true, false, true, false, true, false, 20
+print(17 % 5);       // 2
+print(20 / 4);       // 5
+print(7 - 10);       // -3
+print(3 == 3);       // true
+print(3 != 3);       // false
+print(2 < 5);        // true
+print(2 > 5);        // false
+print(5 <= 5);       // true
+print(4 >= 5);       // false
+print((2 + 3) * 4);  // 20

@@ -1,0 +1,25 @@
+// Exercises: func declarations, parameters, return, recursion, calls as arguments
+// Expected output (Subproject 2):
+//   49
+//   5
+//   120
+//   13
+func square(x) {
+    return x * x;
+}
+
+func add(a, b) {
+    return a + b;
+}
+
+func factorial(n) {
+    if (n <= 1) {
+        return 1;
+    }
+    return n * factorial(n - 1);
+}
+
+print(square(7));
+print(add(2, 3));
+print(factorial(5));
+print(add(square(2), square(3)));

@@ -1,0 +1,14 @@
+// Track B (Power-Aware): annotation parsing + a budget that is respected
+// Sample cost model assumed here: radioSend = 1.5mA, blinkLED = 0.3mA.
+// Your team defines and documents its own cost table.
+// Estimated draw: 1.5 + 0.3 = 1.8mA, which is within 2mA.
+// Expected result (Subproject 2): accepted, prints:
+//   sent
+@power(2mA)
+func transmitReading(value) {
+    radioSend(value);
+    blinkLED();
+}
+
+transmitReading(42);
+print("sent");

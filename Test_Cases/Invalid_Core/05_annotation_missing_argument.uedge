@@ -1,0 +1,6 @@
+// Expected: SYNTAX error at line 3 (the @memory annotation needs a budget argument).
+// (Applies to Track A; other tracks should reject the same shape for their own annotation.)
+@memory()
+func f() {
+    print("hi");
+}

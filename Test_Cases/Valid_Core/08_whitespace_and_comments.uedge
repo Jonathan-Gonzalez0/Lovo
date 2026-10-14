@@ -1,0 +1,11 @@
+// Exercises: irregular spacing, tabs, blank lines, and comments between tokens
+// Your lexer must treat all of this the same as the tidy version.
+// Expected output (Subproject 2):
+//   15
+
+let   x=5;
+let	y	=    10 ;   // trailing comment
+
+
+// a comment on its own line
+print(  x+y  );

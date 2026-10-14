@@ -1,0 +1,13 @@
+// Track B (Power-Aware): a budget that is exceeded
+// Sample cost model assumed here: radioSend = 1.5mA.
+// Estimated draw: 1.5 + 1.5 = 3.0mA, which is more than 2mA.
+// Expected result (Subproject 2): a power-budget violation is reported;
+// "unreachable" is never printed.
+@power(2mA)
+func chatty(value) {
+    radioSend(value);
+    radioSend(value);
+    print("unreachable");
+}
+
+chatty(7);
