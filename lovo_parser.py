@@ -221,7 +221,7 @@ def p_factor_string(p):
 
 def p_factor_bool(p):
     'factor : BOOL'
-    p[0] = p[1] == "True"
+    p[0] = p[1] == "true"
 
 
 def p_factor_identifier(p):
@@ -262,7 +262,9 @@ def p_error(p):
 # Success message
 
 def print_success():
+    print(50*"*")
     print("Parse successful!")
+    print(50*"*")
 
 # Interpreter
 variables = {}
@@ -270,6 +272,9 @@ variables = {}
 def evaluate(node):
     if isinstance(node, (int,float)):
         return node
+
+    if isinstance(node, (str)):
+        return node[1:-1]
 
     kind = node[0]
 
@@ -285,6 +290,57 @@ def evaluate(node):
         left = evaluate(node[1])
         right = evaluate(node[2])
         return left + right
+
+    if kind == "-":
+        left = evaluate(node[1])
+        right = evaluate(node[2])
+        return left - right
+    
+    if kind == "*":
+        left = evaluate(node[1])
+        right = evaluate(node[2])
+        return left * right
+
+    if kind == "%":
+        left = evaluate(node[1])
+        right = evaluate(node[2])
+        return left % right
+
+    if kind == "/":
+        left = evaluate(node[1])
+        right = evaluate(node[2])
+        return left / right
+
+    if kind == "==":
+        left = evaluate(node[1])
+        right = evaluate(node[2])
+        return left == right
+
+    if kind == "!=":
+        left = evaluate(node[1])
+        right = evaluate(node[2])
+        return left != right
+
+    if kind == "<":
+        left = evaluate(node[1])
+        right = evaluate(node[2])
+        return left < right
+
+    if kind == ">":
+        left = evaluate(node[1])
+        right = evaluate(node[2])
+        return left > right
+
+    if kind == "<=":
+        left = evaluate(node[1])
+        right = evaluate(node[2])
+        return left <= right
+
+    if kind == ">=":
+        left = evaluate(node[1])
+        right = evaluate(node[2])
+        return left >= right
+
 
     raise ValueError(f"Unsupported expression: {node}")
 
@@ -303,6 +359,8 @@ def execute(node):
     elif kind == "print":
         print(evaluate(node[1]))
 
+    #elif kind == "if":
+
 parser = yacc.yacc()
 
 if __name__ == "__main__":
@@ -311,8 +369,12 @@ if __name__ == "__main__":
     lexer.lineno = 1
     result = parser.parse(code, lexer=lexer)
 
+    print(result)
     if result is not None:
         print_success()
+    print(50*"-")
+    execute(result)
+    print(50*"-")
 
 
  

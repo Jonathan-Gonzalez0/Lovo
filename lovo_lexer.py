@@ -107,7 +107,7 @@ def t_IDENTIFIER(t):
     t.type = "POWER_UNIT"
   elif t.value == "let":
     t.type = "LET"
-  if t.value == "True" or t.value == "False":
+  if t.value == "true" or t.value == "false":
     t.type = "BOOL"
   if t.value == "if":
     t.type = "IF"
