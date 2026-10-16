@@ -33,7 +33,6 @@ tokens = (
 "FUNC",
 "RETURN",
 "PRINT",
-"COMMENT",
 "COMMA",
 "POWER",
 "POWER_UNIT"
@@ -128,8 +127,14 @@ def t_IDENTIFIER(t):
 # Illegal Characters
 
 def t_error(t):
-  print(f"Error: Illegal character '{t.value[0]}' at line {t.lineno}")
-  sys.exit(1)
+  char = t.value[0]
+
+  if char == '"':
+    print(f"Error: malformed string at line {t.lineno}")
+  else:
+    print(f"Error: unexpected token ‘{char}’ at line {t.lineno}")
+
+  sys.exit(0)
 
 def t_newline(t):
   r'\n+'
