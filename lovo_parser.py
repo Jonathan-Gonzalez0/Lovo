@@ -359,7 +359,24 @@ def execute(node):
     elif kind == "print":
         print(evaluate(node[1]))
 
-    #elif kind == "if":
+    elif kind == "if":
+        if(evaluate(node[1])):
+            for statement in node[2]:
+                execute(statement)
+        else:
+            if(node[3] == None):
+                return
+            for statement in node[3]:
+                execute(statement)
+
+    elif kind == "assign":
+        name = node[1]
+        variables[name] = evaluate(node[2])
+
+    elif kind == "while":
+        while(evaluate(node[1])):
+            for statement in node[2]:
+                execute(statement)
 
 parser = yacc.yacc()
 
