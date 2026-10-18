@@ -253,16 +253,93 @@ def p_arguments_optional(p):
 # Error handling
 
 def p_error(p):
-    if p:
-        print(f"Syntax error at '{p.value}' (line {p.lineno})")
+  source = lexer.lexdata
+  check_lexer = lex.lex()
+
+  check_lexer.input(source)
+  stack = []
+  previous_token = None
+  missing_semicolon = None
+
+  statement_starters = {
+      "LET", "PRINT", "RETURN", "IF",
+      "WHILE", "FOR", "FUNC", "POWER"
+  }
+
+  while True:
+      token = check_lexer.token()
+
+      if token is None:
+        break
+
+      if previous_token is not None:
+        if ( token.type in statement_starters and previous_token.type in {
+                "INTEGER", "FLOAT", "STRING", "BOOL",
+                "IDENTIFIER", "RPAREN"
+            } and not stack
+        ):
+          missing_semicolon = previous_token.lineno
+          break
+
+      if token.type in ("LPAREN", "LBRACE"):
+        stack.append(token)
+
+      elif token.type in ("RPAREN", "RBRACE"):
+        expected_token = {
+            "RPAREN": "LPAREN",
+            "RBRACE": "LBRACE"
+        }[token.type]
+
+        if stack and stack[-1].type == expected_token:
+          stack.pop()
+
+        elif stack:
+          opening_token = stack[-1]
+
+          if opening_token.type == "LPAREN":
+            print(
+                f"Error: missing closing ')' at line "
+                f"{opening_token.lineno}"
+            )
+          else:
+            print("Error: missing closing '}'")
+
+          sys.exit(0)
+
+        else:
+            print(
+                f"Error: unexpected token '{token.value}' "
+                f"at line {token.lineno}"
+            )
+            sys.exit(0)
+
+      previous_token = token
+
+  if missing_semicolon is not None:
+      print(f"Error: expected ‘;’ at line {missing_semicolon}")
+      sys.exit(0)
+
+  if stack:
+    opening_token = stack[-1]
+
+    if opening_token.type == "LPAREN":
+      print(f"Error: missing closing ')' at line {opening_token.lineno}")
     else:
-        print(f"Syntax error at end of input (line {lexer.lineno})")
-    sys.exit(1)
+      print("Error: missing closing '}'")
+
+    sys.exit(0)
+
+  if p is None:
+    print(f"Error: unexpected end of input at line {lexer.lineno}")
+  else:
+    print(f"Error: unexpected token '{p.value}' at line {p.lineno}")
+
+  sys.exit(0)
 
 # Success message
 
 def print_success():
-    print("Parse successful!")
+    print("Parsed successfully")
 
 parser = yacc.yacc()
 
@@ -274,6 +351,3 @@ if __name__ == "__main__":
 
     if result is not None:
         print_success()
-
-
- 
