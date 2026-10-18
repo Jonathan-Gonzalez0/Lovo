@@ -221,7 +221,7 @@ def p_factor_string(p):
 
 def p_factor_bool(p):
     'factor : BOOL'
-    p[0] = p[1] == "True"
+    p[0] = p[1] == "true"
 
 
 def p_factor_identifier(p):
